@@ -11,12 +11,13 @@
       booksList: '.books-list',
     },
     book: {
-      images: '.book__image',
+      list: '.books-list',
     }
   };
 
   const classNames = {
     favorite: 'favorite',
+    bookImage: 'book__image',
   };
 
 
@@ -38,25 +39,39 @@
   const favoriteBooks = [];
 
   const initActions = function(){
-    const allBooks = document.querySelectorAll(select.book.images);
-
-    for (let book of allBooks){
-      const bookId = Number(book.getAttribute('data-id'));
+    // const allBooks = document.querySelectorAll(select.book.images);
+    const booksList = document.querySelector(select.book.list);
+    // console.log('booksList', booksList);
       
-      book.addEventListener('dblclick', function(event){
-        event.preventDefault();
-        const bookArrIndex = favoriteBooks.indexOf(bookId);
+    booksList.addEventListener('dblclick', function(event){
+      event.preventDefault();
+
+      const bookId = Number(event.target.offsetParent.getAttribute('data-id'));
+      // console.log('bookId', bookId);
+
+      const bookArrIndex = favoriteBooks.indexOf(bookId);
+      // console.log('bookArrIndex', bookArrIndex);
+
+      
+      if(event.target.offsetParent.classList.contains(classNames.bookImage)){
+        // console.log('event.target', event.target);
+        // console.log('event.target.offsetParent', event.target.offsetParent);
+        // console.log('classList.contains', event.target.offsetParent.classList.contains(classNames.bookImage));
+
         if(bookArrIndex == -1 ){          
-          book.classList.add(classNames.favorite);
+          event.target.offsetParent.classList.add(classNames.favorite);
           favoriteBooks.push(bookId);
-
+          // console.log('---add---');
+  
         } else {
-          book.classList.remove(classNames.favorite);
+          event.target.offsetParent.classList.remove(classNames.favorite);
           favoriteBooks.splice(bookArrIndex, 1);
+          // console.log('---remove---');
         }
-      });
+      }
 
-    }
+      // console.log('------favoriteBooks------', favoriteBooks);
+    });
 
   };
 
