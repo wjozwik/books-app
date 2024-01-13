@@ -38,6 +38,41 @@
   const favoriteBooks = [];
   const filters = [];
 
+  const filterBooks = function(){
+    
+    for (const book of dataSource.books){
+      let shouldBeHidden = false;
+
+      for(const filter of filters) {
+               
+        if(!book.details[filter]) {
+          shouldBeHidden = true;
+          break;
+        }
+      }
+
+      const bookImages = document.querySelectorAll('.book__image');
+
+      if(shouldBeHidden === true){
+        
+        for(let image of bookImages){
+          if(book.id == image.getAttribute('data-id')){
+            image.classList.add('hidden');
+          }
+        } 
+
+      } else {
+        for(let image of bookImages){
+          if(book.id == image.getAttribute('data-id')){
+            image.classList.remove('hidden');
+          }
+        } 
+      }
+
+    }
+
+  };
+  
   const initActions = function(){
     const booksList = document.querySelector(select.wrapper.booksList);
     // console.log('booksList', booksList);
@@ -89,7 +124,9 @@
 
         // console.log(event.target.value);
         console.log('filters', filters);
+        filterBooks();
       }
+      
     });
   };
 
